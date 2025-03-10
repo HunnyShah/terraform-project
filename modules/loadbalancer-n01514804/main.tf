@@ -1,32 +1,13 @@
-# Create the Public IP Prefix (range of IPs)
-resource "azurerm_public_ip_prefix" "example" {
-  name                = "${var.prefix}-ip-prefix"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  prefix_length       = 28  
-  sku                  = "Standard"  
-}
-
-# Create the Load Balancer Public IP from the Prefix
-resource "azurerm_public_ip" "lb" {
-  name                      = "${var.prefix}-PIP-LB"
-  resource_group_name       = var.resource_group_name
-  location                  = var.location
-  allocation_method         = "Static"
-  public_ip_prefix_id       = azurerm_public_ip_prefix.example.id  
-  sku                       = "Standard" 
-  tags = var.tags
-}
-
-# Create the Load Balancer
 resource "azurerm_lb" "lb" {
   name                = "${var.prefix}-LB"
   resource_group_name = var.resource_group_name
   location            = var.location
+  sku                 = "Standard"  # Required for private LB
 
   frontend_ip_configuration {
-    name                 = "frontend-ip-config"
-    public_ip_address_id = azurerm_public_ip.lb.id  
+    name                          = "frontend-ip-config"
+    subnet_id                     = var.subnet_id   # Use a private IP from the subnet
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
@@ -42,7 +23,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "linux" {
 
   network_interface_id    = var.linux_nic_ids[count.index]
   backend_address_pool_id = azurerm_lb_backend_address_pool.backend_pool.id
-  ip_configuration_name   = "ipconfig1"
+  ip_configuration_name   = "ipconfig"
 }
 
 # Load Balancer Probe

@@ -18,6 +18,11 @@ variable "linux_nic_ids" {
   type        = list(string)
 }
 
+variable "subnet_id" {
+  description = "Subnet ID for the private load balancer"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to be applied to the network resources"
   type        = map(string)

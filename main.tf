@@ -75,6 +75,7 @@ module "loadbalancer" {
   location            = var.location
   prefix              = "n01514804"  
   linux_nic_ids       = module.linux_vms.nic_ids
+  subnet_id           = module.network.subnet_id 
   tags = var.tags
 }
 
