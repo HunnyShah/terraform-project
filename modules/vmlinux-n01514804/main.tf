@@ -37,6 +37,8 @@ resource "azurerm_virtual_machine" "linux_vm" {
   availability_set_id = azurerm_availability_set.linux_avset.id
   network_interface_ids = [azurerm_network_interface.linux_nic[each.key].id]
   vm_size             = "Standard_B1ms"
+  
+  tags = var.tags
 
   storage_image_reference {
     publisher = "OpenLogic"

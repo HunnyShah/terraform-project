@@ -44,3 +44,7 @@ variable "boot_diagnostics_storage_uri" {
   type        = string
 }
 
+variable "tags" {
+  description = "Tags to be applied to the network resources"
+  type        = map(string)
+}

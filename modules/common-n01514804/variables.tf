@@ -26,3 +26,7 @@ variable "storage_account_name" {
   default     = "n01514804storage"
 }
 
+variable "tags" {
+  description = "Tags to be applied to the network resources"
+  type        = map(string)
+}

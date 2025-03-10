@@ -23,3 +23,7 @@ output "vm_dns_names" {
   value       = { for k, v in azurerm_public_ip.linux_pip : k => v.fqdn }
 }
 
+output "nic_ids" {
+  description = "Network Interface IDs of the Linux VMs"
+  value       = [for nic in azurerm_network_interface.linux_nic : nic.id]
+}

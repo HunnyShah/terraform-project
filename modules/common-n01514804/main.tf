@@ -24,5 +24,5 @@ resource "azurerm_storage_account" "storage" {
   timeouts {
     create = "10m"
   }
+  tags = var.tags
 }
-

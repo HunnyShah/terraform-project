@@ -35,3 +35,7 @@ variable "allowed_ports" {
   }
 }
 
+variable "tags" {
+  description = "Tags to be applied to the network resources"
+  type        = map(string)
+}

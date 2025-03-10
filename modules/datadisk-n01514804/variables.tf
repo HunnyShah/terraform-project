@@ -14,3 +14,7 @@ variable "vm_names" {
   type        = map(string)
 }
 
+variable "tags" {
+  description = "Tags to be applied to the network resources"
+  type        = map(string)
+}

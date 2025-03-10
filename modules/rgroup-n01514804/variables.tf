@@ -9,3 +9,7 @@ variable "location" {
   default     = "Canada Central"
 }
 
+variable "tags" {
+  description = "Tags to be applied to the network resources"
+  type        = map(string)
+}

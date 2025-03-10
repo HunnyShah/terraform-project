@@ -39,6 +39,8 @@ resource "azurerm_virtual_machine" "windows_vm" {
   network_interface_ids = [azurerm_network_interface.windows_nic.id]
   vm_size             = "Standard_B1ms"
 
+  tags = var.tags
+
   storage_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"

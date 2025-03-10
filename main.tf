@@ -2,6 +2,7 @@ module "resource_group" {
   source              = "./modules/rgroup-n01514804"
   resource_group_name = var.resource_group_name
   location            = var.location
+  tags = var.tags
 }
 
 module "network" {
@@ -11,6 +12,7 @@ module "network" {
   vnet_name           = "n01514804-VNET"
   subnet_name         = "n01514804-SUBNET"
   nsg_name            = "n01514804-NSG"
+  tags = var.tags
 }
 
 module "common_services" {
@@ -20,6 +22,7 @@ module "common_services" {
   log_analytics_name   = "n01514804-loganalytics"
   recovery_vault_name  = "n01514804-recoveryvault"
   storage_account_name = "n01514804storage"
+  tags = var.tags
 }
 
 module "linux_vms" {
@@ -31,6 +34,8 @@ module "linux_vms" {
   admin_username              = "azureuser"
   admin_password              = "SecurePassword123!"
   boot_diagnostics_storage_uri = module.common_services.storage_account_uri
+
+  tags = var.tags
 
   vm_names = {
     "n01514804-vm1" = "vm1"
@@ -49,6 +54,7 @@ module "windows_vm" {
   admin_username              = "azureuser"
   admin_password              = "SecurePassword123!"
   boot_diagnostics_storage_uri = module.common_services.storage_account_uri
+  tags = var.tags
 }
 
 module "datadisks" {
@@ -60,4 +66,24 @@ module "datadisks" {
     "n01514804-vm2"    = module.linux_vms.vm_ids["n01514804-vm2"]
     "n01514804-winvm"  = module.windows_vm.vm_id
   }
+  tags = var.tags
+}
+
+module "loadbalancer" {
+  source              = "./modules/loadbalancer-n01514804"
+  resource_group_name = module.resource_group.resource_group_name
+  location            = var.location
+  prefix              = "n01514804"  
+  linux_nic_ids       = module.linux_vms.nic_ids
+  tags = var.tags
+}
+
+module "database" {
+  source              = "./modules/database-n01514804"
+  prefix              = "n01514804"
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+  admin_username      = "dbadmin"
+  admin_password      = "SecurePassword123!"
+  tags = var.tags
 }

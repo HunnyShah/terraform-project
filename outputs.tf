@@ -64,3 +64,7 @@ output "datadisk_names" {
   value = module.datadisks.disk_names
 }
 
+output "load_balancer_name" {
+  description = "The name of the load balancer"
+  value       = module.loadbalancer.load_balancer_name
+}
